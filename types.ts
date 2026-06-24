@@ -5,6 +5,7 @@ export type MenuItem = {
   price: number;
   category: string;
   available: boolean;
+  createdAt: string;
 };
 
 export type CartItem = {
