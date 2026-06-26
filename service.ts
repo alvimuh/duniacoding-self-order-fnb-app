@@ -18,20 +18,20 @@ export async function getMenus(): Promise<MenuItem[]> {
 // ---- Order API ----
 
 export async function getOrders(): Promise<Order[]> {
-  const res = await fetch("/api/orders");
-  if (!res.ok) throw new Error(`GET /api/orders failed (${res.status})`);
+  const res = await fetch("/api/order");
+  if (!res.ok) throw new Error(`GET /api/order failed (${res.status})`);
   return res.json();
 }
 
 export async function createOrder(
   payload: CreateOrderPayload,
 ): Promise<CreateOrderResult> {
-  const res = await fetch("/api/orders", {
+  const res = await fetch("/api/order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error(`POST /api/orders failed (${res.status})`);
+  if (!res.ok) throw new Error(`POST /api/order failed (${res.status})`);
   return res.json();
 }
 
@@ -39,12 +39,12 @@ export async function updateOrderStatus(
   id: number,
   payload: UpdateStatusPayload,
 ): Promise<UpdateStatusResult> {
-  const res = await fetch(`/api/orders/${id}/status`, {
+  const res = await fetch(`/api/order/${id}/status`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   if (!res.ok)
-    throw new Error(`PATCH /api/orders/${id}/status failed (${res.status})`);
+    throw new Error(`PATCH /api/order/${id}/status failed (${res.status})`);
   return res.json();
 }
