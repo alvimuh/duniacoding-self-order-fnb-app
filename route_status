@@ -1,0 +1,33 @@
+import { NextRequest, NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
+import { db } from "@/app/db";
+import { orders } from "@/app/db/schema";
+import { getIO } from "@/app/lib/socket-server";
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
+  const { status } = await req.json();
+
+  if (!["pending", "cooking", "ready", "served"].includes(status)) {
+    return NextResponse.json({ error: "Status tidak valid" }, { status: 400 });
+  }
+
+  await db
+    .update(orders)
+    .set({ status })
+    .where(eq(orders.id, Number(id)));
+
+  const io = getIO();
+  if (io) {
+    io.emit("status-change", { id: Number(id), status });
+  } else {
+    console.warn(
+      "[orders/status] Socket.IO not initialized — skipping real-time broadcast",
+    );
+  }
+
+  return NextResponse.json({ id: Number(id), status });
+}
