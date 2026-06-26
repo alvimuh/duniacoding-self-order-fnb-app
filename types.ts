@@ -12,3 +12,47 @@ export type CartItem = {
   menu: MenuItem;
   quantity: number;
 };
+
+export type OrderItem = {
+  id: number;
+  menuId?: number;
+  quantity: number;
+  price: number;
+  menuName: string;
+};
+
+export type Order = {
+  id: number;
+  customerName: string;
+  tableNumber: string;
+  status: string;
+  total: number;
+  notes: string | null;
+  items: OrderItem[];
+  createdAt: string;
+};
+
+export type CreateOrderPayload = {
+  customerName: string;
+  tableNumber: string;
+  notes: string | null;
+  items: {
+    menuId: number;
+    quantity: number;
+    price: number;
+  }[];
+};
+
+export type CreateOrderResult = {
+  id: number;
+  total: number;
+};
+
+export type UpdateStatusPayload = {
+  status: "pending" | "cooking" | "ready" | "served";
+};
+
+export type UpdateStatusResult = {
+  id: number;
+  status: string;
+};
