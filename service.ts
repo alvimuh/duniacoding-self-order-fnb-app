@@ -10,9 +10,10 @@ import {
 // ---- Menu API ----
 
 export async function getMenus(): Promise<MenuItem[]> {
-  const res = await fetch("/api/menus");
-  if (!res.ok) throw new Error(`GET /api/menus failed (${res.status})`);
-  return res.json();
+  const res = await fetch("/api/menu");
+  if (!res.ok) throw new Error(`GET /api/menu failed (${res.status})`);
+  const json = await res.json();
+  return json.data ?? [];
 }
 
 // ---- Order API ----
