@@ -36,16 +36,12 @@ export type CreateOrderPayload = {
   customerName: string;
   tableNumber: string;
   notes: string | null;
-  items: {
-    menuId: number;
-    quantity: number;
-    price: number;
-  }[];
+  orders: Record<number, number>;
 };
 
 export type CreateOrderResult = {
-  id: number;
-  total: number;
+  orderId: number;
+  totalPrice: number;
 };
 
 export type UpdateStatusPayload = {
